@@ -1,0 +1,7 @@
+security.login.remember_me : "Remember Me"
+security.login.username : "Login"
+security.login.password : "Password"
+Username: "Username"
+Email: "Email"
+Password: "Password"
+Confirm.Password : "Confirm Password"
