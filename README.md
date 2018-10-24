@@ -11,5 +11,6 @@ First install : composer install
 Update : compose update 
 
 bin/console doctrine:database:create --if-not-exists
+bin/console make:migration
 bin/console doctrine:schema:update --force
 ```
