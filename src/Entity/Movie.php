@@ -28,10 +28,4 @@ class Movie
      * @ORM\ManyToMany(targetEntity="Genre", inversedBy="movie")
      */
     protected $genre;
-
-    public function __construct()
-    {
-        parent::__construct();
-        // your own logic
-    }
 }
