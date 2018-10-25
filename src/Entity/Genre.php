@@ -1,90 +1,80 @@
 <?php
-/**
- * Created by IntelliJ IDEA.
- * User: gurnavdeepsingh
- * Date: 05/10/2018
- * Time: 11:02
- */
-
-// src/Entity/Genre.php
 
 namespace App\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="genre")
+ * @ORM\Entity(repositoryClass="App\Repository\GenreRepository")
  */
 class Genre
 {
     /**
-     * @ORM\Id
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @ORM\column(type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @return mixed
+     * @ORM\ManyToMany(targetEntity="App\Entity\Movie", mappedBy="genre")
      */
-    public function getId()
+    private $movies;
+
+    public function __construct()
+    {
+        $this->movies = new ArrayCollection();
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     * @return Genre
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param mixed $name
-     * @return Genre
-     */
-    public function setName($name)
+    public function setName(string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return Collection|Movie[]
      */
-    public function getMovie()
+    public function getMovies(): Collection
     {
-        return $this->movie;
+        return $this->movies;
     }
 
-    /**
-     * @param mixed $movie
-     * @return Genre
-     */
-    public function setMovie($movie)
+    public function addMovie(Movie $movie): self
     {
-        $this->movie = $movie;
+        if (!$this->movies->contains($movie)) {
+            $this->movies[] = $movie;
+            $movie->addGenre($this);
+        }
+
         return $this;
     }
 
-    /**
-     * @ORM\ManyToMany(targetEntity="Movie", mappedBy="genre")
-     */
-    private $movie;
+    public function removeMovie(Movie $movie): self
+    {
+        if ($this->movies->contains($movie)) {
+            $this->movies->removeElement($movie);
+            $movie->removeGenre($this);
+        }
+
+        return $this;
+    }
 }
