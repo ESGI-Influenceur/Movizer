@@ -20,8 +20,15 @@ class MovieFixtures extends Fixture
             for ($i = 0; $i < count($movies->body->results); $i++) {
                 $movie_api_id = $movies->body->results[$i]->id;
 
-                if (isset($movies->body->results[$i]->backdrop_path)  AND isset($movies->body->results[$i]->overview)) {
-                    dump('backdrop isset');
+                $movie_detail = Request::get('https://api.themoviedb.org/3/movie/' . $movie_api_id . '?api_key=3942737097dcd29145fe000304ac2294&language=fr-FR');
+
+                if (
+                    isset($movies->body->results[$i]->backdrop_path) AND
+                    isset($movies->body->results[$i]->poster_path) AND
+                    isset($movie_detail->body->runtime) AND
+                    isset($movie_detail->body->overview) AND
+                    strlen($movie_detail->body->overview) > 0
+                ) {
 
                     $movie = new Movie();
                     $movie->setTitle($movies->body->results[$i]->title);
@@ -32,14 +39,16 @@ class MovieFixtures extends Fixture
                     $movie->setOverview($movies->body->results[$i]->overview);
                     $movie->setReleaseDate($movies->body->results[$i]->release_date);
 
-                    $movie_detail = Request::get('https://api.themoviedb.org/3/movie/' . $movie_api_id . '?api_key=3942737097dcd29145fe000304ac2294&language=fr-FR');
-
                     $movie->setBudget($movie_detail->body->budget);
                     $movie->setRuntime($movie_detail->body->runtime);
                     $movie->setStatus($movie_detail->body->status);
+                    $movie->setAverageNote(floor($movie_detail->body->vote_average / 2));
 
                     for ($j = 0;  $j < count($movie_detail->body->genres); $j++) {
-                        if (isset($movie_detail->body->genres[$j]) && isset($movie_detail->body->genres[$j]->name)) {
+                        if (
+                            isset($movie_detail->body->genres[$j]) AND
+                            isset($movie_detail->body->genres[$j]->name)
+                        ) {
                             $genre = $manager->getRepository(Genre::class)->findOneBy(['name' => $movie_detail->body->genres[$j]->name]);
                             $movie->addGenre($genre);
                         }

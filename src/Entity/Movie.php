@@ -78,6 +78,11 @@ class Movie
      */
     private $genre;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $average_note;
+
     public function __construct()
     {
         $this->genre = new ArrayCollection();
@@ -242,6 +247,18 @@ class Movie
         if ($this->genre->contains($genre)) {
             $this->genre->removeElement($genre);
         }
+
+        return $this;
+    }
+
+    public function getAverageNote(): ?int
+    {
+        return $this->average_note;
+    }
+
+    public function setAverageNote(int $average_note): self
+    {
+        $this->average_note = $average_note;
 
         return $this;
     }
