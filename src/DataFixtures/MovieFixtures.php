@@ -42,7 +42,7 @@ class MovieFixtures extends Fixture
                     $movie->setBudget($movie_detail->body->budget);
                     $movie->setRuntime($movie_detail->body->runtime);
                     $movie->setStatus($movie_detail->body->status);
-                    $movie->setAverageNote(floor($movie_detail->body->vote_average / 2));
+                    $movie->setAverageNote(0);
 
                     for ($j = 0;  $j < count($movie_detail->body->genres); $j++) {
                         if (

@@ -30,7 +30,7 @@ class TvFixtures extends Fixture
                     $tv->setName($tv_detail->body->name)
                         ->setOriginalName($tv_detail->body->original_name)
                         ->setOverview($tv_detail->body->overview)
-                        ->setAverageNote(floor($tv_detail->body->vote_average / 2))
+                        ->setAverageNote(0)
                         ->setBackdropPath($tv_detail->body->backdrop_path)
                         ->setPosterPath($tv_detail->body->poster_path)
                         ->setFirstAirDate($tv_detail->body->first_air_date)
