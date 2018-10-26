@@ -68,9 +68,15 @@ class Tv
      */
     private $genres;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="comment_tv", orphanRemoval=true)
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -207,6 +213,37 @@ class Tv
     {
         if ($this->genres->contains($genre)) {
             $this->genres->removeElement($genre);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setCommentTv($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            // set the owning side to null (unless already changed)
+            if ($comment->getCommentTv() === $this) {
+                $comment->setCommentTv(null);
+            }
         }
 
         return $this;

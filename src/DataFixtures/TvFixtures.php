@@ -24,7 +24,8 @@ class TvFixtures extends Fixture
 
                 if(
                     isset($tv_detail->body->backdrop_path) AND
-                    isset($tv_detail->body->poster_path)
+                    isset($tv_detail->body->poster_path) AND
+                    isset($tv_detail->body->origin_country[0])
                 ) {
                     $tv = new Tv();
                     $tv->setName($tv_detail->body->name)
