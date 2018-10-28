@@ -33,10 +33,16 @@ class User extends BaseUser
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="note_user")
+     */
+    private $notes;
+
     public function __construct()
     {
         parent::__construct();
         $this->comments = new ArrayCollection();
+        $this->notes = new ArrayCollection();
         // your own logic
     }
 
@@ -65,6 +71,37 @@ class User extends BaseUser
             // set the owning side to null (unless already changed)
             if ($comment->getCommentUser() === $this) {
                 $comment->setCommentUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setNoteUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->contains($note)) {
+            $this->notes->removeElement($note);
+            // set the owning side to null (unless already changed)
+            if ($note->getNoteUser() === $this) {
+                $note->setNoteUser(null);
             }
         }
 

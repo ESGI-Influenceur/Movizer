@@ -88,10 +88,16 @@ class Movie
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="note_film")
+     */
+    private $notes;
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -299,4 +305,36 @@ class Movie
 
         return $this;
     }
+
+    /**
+     * @return Collection|Note[]
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes[] = $note;
+            $note->setNoteMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->contains($note)) {
+            $this->notes->removeElement($note);
+            // set the owning side to null (unless already changed)
+            if ($note->getNoteMovie() === $this) {
+                $note->setNoteMovie(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
