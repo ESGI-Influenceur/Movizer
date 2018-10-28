@@ -38,11 +38,23 @@ class User extends BaseUser
      */
     private $notes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Movie", inversedBy="favorite_users")
+     */
+    private $favorite_movies;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tv", inversedBy="favorite_users")
+     */
+    private $favorite_tvs;
+
     public function __construct()
     {
         parent::__construct();
         $this->comments = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->favorite_movies = new ArrayCollection();
+        $this->favorite_tvs = new ArrayCollection();
         // your own logic
     }
 
@@ -103,6 +115,58 @@ class User extends BaseUser
             if ($note->getNoteUser() === $this) {
                 $note->setNoteUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Movie[]
+     */
+    public function getFavoriteMovie(): Collection
+    {
+        return $this->favorite_movies;
+    }
+
+    public function addFavoriteMovie(Movie $favoriteMovie): self
+    {
+        if (!$this->favorite_movies->contains($favoriteMovie)) {
+            $this->favorite_movies[] = $favoriteMovie;
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteMovie(Movie $favoriteMovie): self
+    {
+        if ($this->favorite_movies->contains($favoriteMovie)) {
+            $this->favorite_movies->removeElement($favoriteMovie);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tv[]
+     */
+    public function getFavoriteTvs(): Collection
+    {
+        return $this->favorite_tvs;
+    }
+
+    public function addFavoriteTv(Tv $favoritesTv): self
+    {
+        if (!$this->favorite_tvs->contains($favoritesTv)) {
+            $this->favorite_tvs[] = $favoritesTv;
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteTv(Tv $favoritesTv): self
+    {
+        if ($this->favorite_tvs->contains($favoritesTv)) {
+            $this->favorite_tvs->removeElement($favoritesTv);
         }
 
         return $this;

@@ -78,11 +78,17 @@ class Tv
      */
     private $notes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorites_tvs")
+     */
+    private $favorite_users;
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->favorite_users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -281,6 +287,34 @@ class Tv
             if ($note->getNoteTv() === $this) {
                 $note->setNoteTv(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getFavoriteUsers(): Collection
+    {
+        return $this->favorite_users;
+    }
+
+    public function addFavoriteUser(User $favoriteUser): self
+    {
+        if (!$this->favorite_users->contains($favoriteUser)) {
+            $this->favorite_users[] = $favoriteUser;
+            $favoriteUser->addFavoriteTv($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteUser(User $favoriteUser): self
+    {
+        if ($this->favorite_users->contains($favoriteUser)) {
+            $this->favorite_users->removeElement($favoriteUser);
+            $favoriteUser->removeFavoriteTv($this);
         }
 
         return $this;

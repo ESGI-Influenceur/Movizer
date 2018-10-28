@@ -93,11 +93,17 @@ class Movie
      */
     private $notes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorite_movie")
+     */
+    private $favorite_users;
+
     public function __construct()
     {
         $this->genres = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->favorite_users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -337,4 +343,31 @@ class Movie
         return $this;
     }
 
+    /**
+     * @return Collection|User[]
+     */
+    public function getFavoriteUsers(): Collection
+    {
+        return $this->favorite_users;
+    }
+
+    public function addFavoriteUser(User $favoriteUser): self
+    {
+        if (!$this->favorite_users->contains($favoriteUser)) {
+            $this->favorite_users[] = $favoriteUser;
+            $favoriteUser->addFavoriteMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteUser(User $favoriteUser): self
+    {
+        if ($this->favorite_users->contains($favoriteUser)) {
+            $this->favorite_users->removeElement($favoriteUser);
+            $favoriteUser->removeFavoriteMovie($this);
+        }
+
+        return $this;
+    }
 }
