@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\MovieRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\TvRepository")
  */
-class Movie
+class Tv
 {
     /**
      * @ORM\Id()
@@ -21,12 +21,12 @@ class Movie
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $original_title;
+    private $original_name;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -36,12 +36,12 @@ class Movie
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $original_language;
+    private $backdrop_path;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      */
-    private $backdrop_path;
+    private $average_note;
 
     /**
      * @ORM\Column(type="text")
@@ -51,50 +51,35 @@ class Movie
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $release_date;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $budget;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $runtime;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $status;
+    private $first_air_date;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $video;
+    private $origin_country;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Genre", inversedBy="movies")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $original_language;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Genre", inversedBy="tvs")
      */
     private $genres;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $average_note;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="comment_movie", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="comment_tv", orphanRemoval=true)
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="note_film")
+     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="note_tv")
      */
     private $notes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorite_movie")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorites_tvs")
      */
     private $favorite_users;
 
@@ -111,26 +96,26 @@ class Movie
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getName(): ?string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): self
+    public function setName(string $name): self
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getOriginalTitle(): ?string
+    public function getOriginalName(): ?string
     {
-        return $this->original_title;
+        return $this->original_name;
     }
 
-    public function setOriginalTitle(string $original_title): self
+    public function setOriginalName(string $original_name): self
     {
-        $this->original_title = $original_title;
+        $this->original_name = $original_name;
 
         return $this;
     }
@@ -147,18 +132,6 @@ class Movie
         return $this;
     }
 
-    public function getOriginalLanguage(): ?string
-    {
-        return $this->original_language;
-    }
-
-    public function setOriginalLanguage(string $original_language): self
-    {
-        $this->original_language = $original_language;
-
-        return $this;
-    }
-
     public function getBackdropPath(): ?string
     {
         return $this->backdrop_path;
@@ -167,6 +140,18 @@ class Movie
     public function setBackdropPath(string $backdrop_path): self
     {
         $this->backdrop_path = $backdrop_path;
+
+        return $this;
+    }
+
+    public function getAverageNote(): ?int
+    {
+        return $this->average_note;
+    }
+
+    public function setAverageNote(int $average_note): self
+    {
+        $this->average_note = $average_note;
 
         return $this;
     }
@@ -183,62 +168,38 @@ class Movie
         return $this;
     }
 
-    public function getReleaseDate(): ?string
+    public function getFirstAirDate(): ?string
     {
-        return $this->release_date;
+        return $this->first_air_date;
     }
 
-    public function setReleaseDate(string $release_date): self
+    public function setFirstAirDate(string $first_air_date): self
     {
-        $this->release_date = $release_date;
+        $this->first_air_date = $first_air_date;
 
         return $this;
     }
 
-    public function getBudget(): ?int
+    public function getOriginCountry(): ?string
     {
-        return $this->budget;
+        return $this->origin_country;
     }
 
-    public function setBudget(int $budget): self
+    public function setOriginCountry(?string $origin_country): self
     {
-        $this->budget = $budget;
+        $this->origin_country = $origin_country;
 
         return $this;
     }
 
-    public function getRuntime(): ?int
+    public function getOriginalLanguage(): ?string
     {
-        return $this->runtime;
+        return $this->original_language;
     }
 
-    public function setRuntime(int $runtime): self
+    public function setOriginalLanguage(string $original_language): self
     {
-        $this->runtime = $runtime;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    public function getVideo(): ?string
-    {
-        return $this->video;
-    }
-
-    public function setVideo(?string $video): self
-    {
-        $this->video = $video;
+        $this->original_language = $original_language;
 
         return $this;
     }
@@ -269,18 +230,6 @@ class Movie
         return $this;
     }
 
-    public function getAverageNote(): ?int
-    {
-        return $this->average_note;
-    }
-
-    public function setAverageNote(int $average_note): self
-    {
-        $this->average_note = $average_note;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Comment[]
      */
@@ -293,7 +242,7 @@ class Movie
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
-            $comment->setCommentMovie($this);
+            $comment->setCommentTv($this);
         }
 
         return $this;
@@ -304,8 +253,8 @@ class Movie
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
-            if ($comment->getCommentMovie() === $this) {
-                $comment->setCommentMovie(null);
+            if ($comment->getCommentTv() === $this) {
+                $comment->setCommentTv(null);
             }
         }
 
@@ -324,7 +273,7 @@ class Movie
     {
         if (!$this->notes->contains($note)) {
             $this->notes[] = $note;
-            $note->setNoteMovie($this);
+            $note->setNoteTv($this);
         }
 
         return $this;
@@ -335,8 +284,8 @@ class Movie
         if ($this->notes->contains($note)) {
             $this->notes->removeElement($note);
             // set the owning side to null (unless already changed)
-            if ($note->getNoteMovie() === $this) {
-                $note->setNoteMovie(null);
+            if ($note->getNoteTv() === $this) {
+                $note->setNoteTv(null);
             }
         }
 
@@ -355,7 +304,7 @@ class Movie
     {
         if (!$this->favorite_users->contains($favoriteUser)) {
             $this->favorite_users[] = $favoriteUser;
-            $favoriteUser->addFavoriteMovie($this);
+            $favoriteUser->addFavoriteTv($this);
         }
 
         return $this;
@@ -365,7 +314,7 @@ class Movie
     {
         if ($this->favorite_users->contains($favoriteUser)) {
             $this->favorite_users->removeElement($favoriteUser);
-            $favoriteUser->removeFavoriteMovie($this);
+            $favoriteUser->removeFavoriteTv($this);
         }
 
         return $this;
