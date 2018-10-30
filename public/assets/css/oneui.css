@@ -9288,6 +9288,7 @@ label {
 
 small,
 .small {
+    font-size: 70%;
   font-weight: inherit;
 }
 
@@ -10799,8 +10800,11 @@ small,
   transition: opacity .25s ease-out;
   width: 100%;
   margin: 0 auto;
-  padding: 1.25rem 1.25rem 1px;
   overflow-x: visible;
+}
+
+.block-content p{
+    padding: 1.25rem 1.25rem 15px;
 }
 
 .block-content > .pull-t,

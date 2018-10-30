@@ -5,6 +5,8 @@
 /var/
 .idea/
 ###< symfony/framework-bundle ###
+.DS_Store
+.OneUI-Source
 
 ###> symfony/phpunit-bridge ###
 .phpunit

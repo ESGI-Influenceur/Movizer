@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-        <title>OneUI - Bootstrap 4 Admin Template &amp; UI Framework</title>
+        <title>MoviZer</title>
 
         <meta name="description" content="OneUI - Bootstrap 4 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
         <meta name="author" content="pixelcave">
@@ -64,6 +64,14 @@
                                     <span class="m-2 d-inline-block invisible" data-toggle="appear" data-class="animated fadeInUp" data-timeout="600">
                                         <a class="btn btn-primary px-4 py-2" data-toggle="click-ripple" href='{{ path('fos_user_registration_register') }}'>
                                             <i class="fa fa-fw fa-rocket mr-1"></i> Register
+                                        </a>
+                                    </span>
+                                {% endif %}
+
+                                {% if app.user %}
+                                    <span class="m-2 d-inline-block invisible" data-toggle="appear" data-class="animated fadeInUp" data-timeout="600">
+                                        <a class="btn btn-success px-4 py-2" data-toggle="click-ripple" href='{{ path('fos_user_profile_show') }}'>
+                                            <i class="fa fa-fw fa-shopping-cart mr-1"></i> Profile
                                         </a>
                                     </span>
                                 {% endif %}
