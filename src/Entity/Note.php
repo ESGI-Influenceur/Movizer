@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\NoteRepository")
@@ -17,6 +19,8 @@ class Note
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Type("int")
      * @ORM\Column(type="integer")
      */
     private $note;
@@ -32,6 +36,7 @@ class Note
     private $note_tv;
 
     /**
+     * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="notes")
      * @ORM\JoinColumn(nullable=false)
      */

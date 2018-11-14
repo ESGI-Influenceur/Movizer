@@ -28,16 +28,16 @@ class TvFixtures extends Fixture
                     isset($tv_detail->body->origin_country[0])
                 ) {
                     $tv = new Tv();
-                    $tv->setName($tv_detail->body->name)
-                        ->setOriginalName($tv_detail->body->original_name)
-                        ->setOverview($tv_detail->body->overview)
-                        ->setAverageNote(0)
-                        ->setBackdropPath($tv_detail->body->backdrop_path)
-                        ->setPosterPath($tv_detail->body->poster_path)
-                        ->setFirstAirDate($tv_detail->body->first_air_date)
-                        ->setOriginalLanguage($tv_detail->body->original_language)
-                        ->setOriginCountry($tv_detail->body->origin_country[0]);
 
+                    $tv->setName($tv_detail->body->name);
+                    $tv->setOriginalName($tv_detail->body->original_name);
+                    $tv->setPosterPath($tv_detail->body->poster_path);
+                    $tv->setFirstAirDate($tv_detail->body->first_air_date);
+                    $tv->setOriginalLanguage($tv_detail->body->original_language);
+                    $tv->setBackdropPath($tv_detail->body->backdrop_path);
+                    $tv->setOriginCountry($tv_detail->body->origin_country[0]);
+                    $tv->setOverview($tv_detail->body->overview);
+                    $tv->setAverageNote(0);
 
                     for($y = 0; $y < count($tv_detail->body->genres); $y++) {
                         if (

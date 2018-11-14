@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\DataTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tv
 {
+
+    use DataTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -27,26 +31,6 @@ class Tv
      * @ORM\Column(type="string", length=255)
      */
     private $original_name;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $poster_path;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $backdrop_path;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $average_note;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $overview;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -116,54 +100,6 @@ class Tv
     public function setOriginalName(string $original_name): self
     {
         $this->original_name = $original_name;
-
-        return $this;
-    }
-
-    public function getPosterPath(): ?string
-    {
-        return $this->poster_path;
-    }
-
-    public function setPosterPath(string $poster_path): self
-    {
-        $this->poster_path = $poster_path;
-
-        return $this;
-    }
-
-    public function getBackdropPath(): ?string
-    {
-        return $this->backdrop_path;
-    }
-
-    public function setBackdropPath(string $backdrop_path): self
-    {
-        $this->backdrop_path = $backdrop_path;
-
-        return $this;
-    }
-
-    public function getAverageNote(): ?int
-    {
-        return $this->average_note;
-    }
-
-    public function setAverageNote(int $average_note): self
-    {
-        $this->average_note = $average_note;
-
-        return $this;
-    }
-
-    public function getOverview(): ?string
-    {
-        return $this->overview;
-    }
-
-    public function setOverview(string $overview): self
-    {
-        $this->overview = $overview;
 
         return $this;
     }
