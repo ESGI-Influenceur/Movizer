@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -18,6 +19,8 @@ class Comment
     private $id;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Type("string")
      * @ORM\Column(type="text")
      */
     private $content;
