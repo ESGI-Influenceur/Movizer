@@ -1,124 +1,44 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-
-    <title>OneUI - Bootstrap 4 Admin Template &amp; UI Framework</title>
-
-    <meta name="description" content="OneUI - Bootstrap 4 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
-    <meta name="author" content="pixelcave">
-    <meta name="robots" content="noindex, nofollow">
-
-    <!-- Open Graph Meta -->
-    <meta property="og:title" content="OneUI - Bootstrap 4 Admin Template &amp; UI Framework">
-    <meta property="og:site_name" content="OneUI">
-    <meta property="og:description" content="OneUI - Bootstrap 4 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
-
-    <!-- Icons -->
-    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
-    <link rel="shortcut icon" href="assets/media/favicons/favicon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="assets/media/favicons/favicon-192x192.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/media/favicons/apple-touch-icon-180x180.png">
-    <!-- END Icons -->
-
-    <!-- Stylesheets -->
-    <!-- Fonts and OneUI framework -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
-    <link rel="stylesheet" id="css-main" href="assets/css/oneui.min.css">
-</head>
-<body>
-<div id="page-container">
-
-    <!-- Main Container -->
-    <main id="main-container">
-
-        <!-- Page Content -->
-        <div class="bg-image" style="background-image: url('assets/media/photos/photo6@2x.jpg');">
-            <div class="hero-static bg-white-95">
-                <div class="content">
-                    <div class="row justify-content-center">
-                        <div class="col-md-8 col-lg-6 col-xl-4">
-                            <!-- Sign In Block -->
-                            <div class="block block-themed block-fx-shadow mb-0">
-                                <div class="block-header">
-                                    <h3 class="block-title">Sign In</h3>
-                                    <div class="block-options">
-                                        <a class="btn-block-option font-size-sm" href="op_auth_reminder.html">Forgot Password?</a>
-                                        <a class="btn-block-option" href="op_auth_signup.html" data-toggle="tooltip" data-placement="left" title="New Account">
-                                            <i class="fa fa-user-plus"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="block-content">
-                                    <div class="p-sm-3 px-lg-4 py-lg-5">
-                                        <h1 class="mb-2">OneUI</h1>
-                                        <p>Welcome, please login.</p>
-
-                                        {% if error %}
-                                            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                                        {% endif %}
-
-                                        <form class="js-validation-signin" action="{{ path("fos_user_security_check") }}" method="post">
-                                            {% if csrf_token %}
-                                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-                                            {% endif %}
-
-                                            <!--label for="username">{{ 'security.login.username'|trans }}</label-->
-                                            <div class="py-3">
-                                                <div class="form-group">
-                                            <input type="text" class="form-control form-control-alt form-control-lg" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" placeholder="Username"/>
-                                                </div>
-                                                <div class="form-group">
-                                            <!--label for="password">{{ 'security.login.password'|trans }}</label-->
-                                            <input type="password" class="form-control form-control-alt form-control-lg" id="password" name="_password" required="required" autocomplete="current-password" placeholder="Password"/>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-                                                        <label class="custom-control-label font-w400" for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <div class="col-md-6 col-xl-5">
-                                            <input type="submit" class="btn btn-block btn-primary" id="_submit" name="_submit" value="Sign In" />
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        <!-- END Sign In Form -->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END Sign In Block -->
+{% extends 'blank.html.twig' %}
+{% block body %}
+    <div class="page-single">
+        <div class="container">
+            <div class="row">
+                <div class="col col-login mx-auto">
+                    {% if error %}
+                        <div class="alert alert-icon alert-danger" role="alert">
+                            <i class="fe fe-alert-triangle mr-2" aria-hidden="true"></i>
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
                         </div>
+                    {% endif %}
+
+                    <form class="card" action="{{ path("fos_user_security_check") }}" method="post">
+                        {% if csrf_token %}
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                        {% endif %}
+                        <div class="card-body p-6">
+                            <div class="card-title">Connectez-vous à votre compte</div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="username">Nom d'utilisateur</label>
+                                <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="password">Mot de passe</label>
+                                <input class="form-control" type="password" id="password" name="_password" required="required" autocomplete="current-password" />
+                            </div>
+
+                            <div class="form-footer">
+                                <input class="btn btn-primary btn-block" type="submit" id="_submit" name="_submit" value="Connexion" />
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="text-center text-muted">
+                        Pas encore de compte? <a href="/register">Inscrivez-vous</a>
                     </div>
-                </div>
-                <div class="content content-full font-size-sm text-muted text-center">
-                    <strong>OneUI 4.0</strong> &copy; <span data-toggle="year-copy">2018</span>
                 </div>
             </div>
         </div>
-        <!-- END Page Content -->
-
-    </main>
-    <!-- END Main Container -->
-</div>
-<!-- END Page Container -->
-
-
-<script src="assets/js/oneui.core.min.js"></script>
-
-<script src="assets/js/oneui.app.min.js"></script>
-
-<!-- Page JS Plugins -->
-<script src="assets/js/plugins/jquery-validation/jquery.validate.min.js"></script>
-
-<!-- Page JS Code -->
-<script src="assets/js/pages/op_auth_signin.min.js"></script>
-</body>
-</html>
+    </div>
+{% endblock %}

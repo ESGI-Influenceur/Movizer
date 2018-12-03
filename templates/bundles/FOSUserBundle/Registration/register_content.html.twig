@@ -1,180 +1,61 @@
-{% trans_default_domain 'FOSUserBundle' %}
+{% extends 'blank.html.twig' %}
+{% block body %}
+    <div class="page-single">
+        <div class="container">
+            <div class="row">
+                <div class="col col-login mx-auto">
+                    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register card'}}) }}
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+                        <div class="card-body p6">
+                            <div class="card-title">
+                                Crée un compte
+                            </div>
 
-    <title>OneUI - Bootstrap 4 Admin Template &amp; UI Framework</title>
+                            <div class="form-group">
+                                <label class="form-label" for="username">Email</label>
+                                {{ form_widget(form.email, {'label': false,'attr': {'class': 'form-control form-control-alt', 'type': 'email' ,'placeholder' :'Email'}}) }}
+                                {{ form_errors(form.email, {'class': 'error-messages'})}}
+                            </div>
 
-    <meta name="description" content="OneUI - Bootstrap 4 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
-    <meta name="author" content="pixelcave">
-    <meta name="robots" content="noindex, nofollow">
+                            <div class="form-group">
+                                <label class="form-label" for="username">Nom d'utilisateur</label>
+                                {{ form_widget(form.username, {'label': false,'attr': {'class': 'form-control form-control-alt', 'type': 'text' ,'placeholder' :'Username'}}) }}
+                                {{ form_errors(form.username, {'class': 'error-messages'}) }}
+                            </div>
 
-    <!-- Open Graph Meta -->
-    <meta property="og:title" content="OneUI - Bootstrap 4 Admin Template &amp; UI Framework">
-    <meta property="og:site_name" content="OneUI">
-    <meta property="og:description" content="OneUI - Bootstrap 4 Admin Template &amp; UI Framework created by pixelcave and published on Themeforest">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
+                            <div class="form-group">
+                                <label class="form-label" for="username">Mot de passe</label>
+                                {{ form_widget(form.plainPassword.first, {'label': false,'attr': {'class': 'form-control form-control-alt', 'type': 'email' ,'placeholder' :'Password'}}) }}
+                            </div>
 
-    <!-- Icons -->
-    <!-- The following icons can be replaced with your own, they are used by desktop and mobile browsers -->
-    <link rel="shortcut icon" href="{{ asset('assets/media/favicons/favicon.png')}}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('assets/media/favicons/favicon-192x192.png')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/media/favicons/apple-touch-icon-180x180.png')}}">
-    <!-- END Icons -->
 
-    <!-- Stylesheets -->
-    <!-- Fonts and OneUI framework -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
-    <link rel="stylesheet" id="css-main" href="{{ asset('assets/css/oneui.min.css')}}">
+                            <div class="form-group">
+                                <label class="form-label" for="username">Retapez le mot de passe</label>
+                                {{ form_widget(form.plainPassword.second, {'label': false,'attr': {'class': 'form-control form-control-alt', 'type': 'email' ,'placeholder' :'Confirm Password'}}) }}
+                                {{ form_errors(form.plainPassword, {'class': 'error-messages'})}}
+                            </div>
 
-    <!-- You can include a specific file from css/themes/ folder to alter the default color theme of the template. eg: -->
-    <!-- <link rel="stylesheet" id="css-theme" href="assets/css/themes/amethyst.min.css"> -->
-    <!-- END Stylesheets -->
-</head>
-<body>
-<!-- Page Container -->
-<div id="page-container">
-
-    <!-- Main Container -->
-    <main id="main-container">
-
-        <!-- Page Content -->
-        <div class="hero-static">
-            <div class="content">
-                <div class="row justify-content-center">
-                    <div class="col-md-8 col-lg-6 col-xl-4">
-                        <!-- Sign Up Block -->
-                        <div class="block block-themed block-fx-shadow mb-0">
-                            <div class="block-header bg-success">
-                                <h3 class="block-title">Create Account</h3>
-                                <div class="block-options">
-                                    <a class="btn-block-option font-size-sm" href="javascript:void(0)" data-toggle="modal" data-target="#one-signup-terms">View Terms</a>
-                                    <a class="btn-block-option" href="op_auth_signin.html" data-toggle="tooltip" data-placement="left" title="Sign In">
-                                        <i class="fa fa-sign-in-alt"></i>
-                                    </a>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="signup-terms" name="signup-terms" required>
+                                    <label class="custom-control-label font-w400" for="signup-terms">I agree to Terms &amp; Conditions</label>
                                 </div>
                             </div>
-                            <div class="block-content">
 
-                                <div class="p-sm-3 px-lg-4 py-lg-5">
-                                    <h1 class="mb-2">OneUI</h1>
-
-                                    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'js-validation-signup'}}) }}
-                                        <div class="py-3">
-                                            <div class="form-group">
-                                                {{ form_widget(form.username, {'label': false,'attr': {'class': 'form-control form-control-lg form-control-alt', 'type': 'text' ,'placeholder' :'Username'}}) }}
-                                                <div style="color: red; list-style: none; padd">{{ form_errors(form.username) }}</div>
-                                            </div>
-                                            <div class="form-group">
-                                                {{ form_widget(form.email, {'label': false,'attr': {'class': 'form-control form-control-lg form-control-alt', 'type': 'email' ,'placeholder' :'Email'}}) }}
-                                                {{ form_errors(form.email, {'class': 'error-messages'})}}
-                                            </div>
-                                            <div class="form-group">
-                                                {{ form_widget(form.plainPassword.first, {'label': false,'attr': {'class': 'form-control form-control-lg form-control-alt', 'type': 'email' ,'placeholder' :'Password'}}) }}
-                                            </div>
-                                            <div class="form-group">
-                                                {{ form_widget(form.plainPassword.second, {'label': false,'attr': {'class': 'form-control form-control-lg form-control-alt', 'type': 'email' ,'placeholder' :'Confirm Password'}}) }}
-                                                {{ form_errors(form.plainPassword, {'class': 'error-messages'})}}
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="signup-terms" name="signup-terms" required>
-                                                    <label class="custom-control-label font-w400" for="signup-terms">I agree to Terms &amp; Conditions</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-md-6 col-xl-5">
-                                                <input type="submit" class="btn btn-primary btn-round btn-lg btn-block" value="Sign Up" />
-                                            </div>
-                                        </div>
-                                    {{ form_end(form) }}
-                                    <!-- END Sign Up Form -->
+                            <div class="form-group row">
+                                <div class="col-md-6 col-xl-5">
+                                    <input type="submit" class="btn btn-primary btn-round btn-block" value="Inscription" />
                                 </div>
                             </div>
                         </div>
-                        <!-- END Sign Up Block -->
-                    </div>
-                </div>
-            </div>
-            <div class="content content-full font-size-sm text-muted text-center">
-                <strong>OneUI 4.0</strong> &copy; <span data-toggle="year-copy">2018</span>
-            </div>
-        </div>
-        <!-- END Page Content -->
-
-    </main>
-    <!-- END Main Container -->
-</div>
-<!-- END Page Container -->
-
-<!-- Terms Modal -->
-<div class="modal fade" id="one-signup-terms" tabindex="-1" role="dialog" aria-labelledby="one-signup-terms" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-popout" role="document">
-        <div class="modal-content">
-            <div class="block block-themed block-transparent mb-0">
-                <div class="block-header bg-primary-dark">
-                    <h3 class="block-title">Terms &amp; Conditions</h3>
-                    <div class="block-options">
-                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                            <i class="fa fa-fw fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="block-content">
-                    <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p>
-                    <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p>
-                    <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p>
-                    <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p>
-                    <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti vestibulum quis in sit varius lorem sit metus mi.</p>
-                </div>
-                <div class="block-content block-content-full text-right border-top">
-                    <button type="button" class="btn btn-sm btn-link mr-2" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">I Agree</button>
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- END Terms Modal -->
+{% endblock %}
 
 
-<!--
-    OneUI JS Core
 
-    Vital libraries and plugins used in all pages. You can choose to not include this file if you would like
-    to handle those dependencies through webpack. Please check out assets/_es6/main/bootstrap.js for more info.
 
-    If you like, you could also include them separately directly from the assets/js/core folder in the following
-    order. That can come in handy if you would like to include a few of them (eg jQuery) from a CDN.
-
-    assets/js/core/jquery.min.js
-    assets/js/core/bootstrap.bundle.min.js
-    assets/js/core/simplebar.min.js
-    assets/js/core/jquery-scrollLock.min.js
-    assets/js/core/jquery.appear.min.js
-    assets/js/core/js.cookie.min.js
--->
-<script src="{{ asset('assets/js/oneui.core.min.js')}}"></script>
-
-<!--
-    OneUI JS
-
-    Custom functionality including Blocks/Layout API as well as other vital and optional helpers
-    webpack is putting everything together at assets/_es6/main/app.js
--->
-<script src="{{ asset('assets/js/oneui.app.min.js')}}"></script>
-
-<!-- Page JS Plugins -->
-<script src="{{ asset('assets/js/plugins/jquery-validation/jquery.validate.min.js')}}"></script>
-
-<!-- Page JS Code -->
-<script src="{{ asset('assets/js/pages/op_auth_signup.min.js')}}"></script>
-</body>
-</html>
 
