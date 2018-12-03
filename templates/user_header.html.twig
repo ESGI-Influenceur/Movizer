@@ -1,0 +1,26 @@
+{% if app.user %}
+    <div class="dropdown">
+        <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+            <span class="avatar avatar-green">{{ app.user.username|slice(0, 2)|upper }}</span>
+            <span class="ml-2 d-none d-lg-block">
+                                <span class="text-default">{{ app.user.username }}</span>
+                                <small class="text-muted d-block mt-1">Utilisateur</small>
+                            </span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+            <a class="dropdown-item" href="/profile">
+                <i class="dropdown-icon fe fe-user"></i> Profile
+            </a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">
+                <i class="dropdown-icon fe fe-log-out"></i> Déconnexion
+            </a>
+        </div>
+    </div>
+{% else %}
+    <div class="nav-item d-none d-md-flex">
+        <a href="{{ path('fos_user_security_login') }}" class="btn btn-outline-primary mx-1">Se connecter</a>
+        <a href="/register" class="btn btn-outline-success mx-1">Nous rejoindre</a>
+    </div>
+{% endif %}

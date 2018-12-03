@@ -25,7 +25,7 @@ class UserFixtures extends Fixture
             ->setEmail('admin@admin.com')
             ->setPassword($this->passwordEncoder->encodePassword($admin, 'admin'))
             ->setEnabled(true);
-        $admin->addRole('ROLE_SUPER_ADMIN');
+        $admin->addRole('ROLE_ADMIN');
 
         $manager->persist($admin);
         $manager->flush();

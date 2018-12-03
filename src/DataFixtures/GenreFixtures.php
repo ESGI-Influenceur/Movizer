@@ -12,6 +12,7 @@ class GenreFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        Request::verifyPeer(false);
         $film_genres = Request::get('https://api.themoviedb.org/3/genre/movie/list?api_key=3942737097dcd29145fe000304ac2294&language=fr-FR');
 
         $serie_genres = Request::get('https://api.themoviedb.org/3/genre/tv/list?api_key=3942737097dcd29145fe000304ac2294&language=fr-FR');
