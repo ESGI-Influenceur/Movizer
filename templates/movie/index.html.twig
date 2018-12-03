@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="main">
+        <div class="my-3 my-md-5">
+
+            <div class="container listFilm">
+                <div class="page-header">
+                    <h1 class="page-title">
+                        Films Populaire
+                    </h1>
+                    <div class="page-options d-flex">
+                        <div class="form-group">
+                            {{ form_start(form, {'attr': {'class': 'input-group'}}) }}
+                            {{ form_widget(form.search, {'attr': {'placeholder': 'Rechercher un film'} }) }}
+                            <span class="input-group-append">
+                            {{ form_widget(form.submit, {'label' : 'Go!'}) }}
+                        </span>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% for movie in movies if movies  %}
+                        <div class="col-md-12 col-lg-6">
+
+                            <div class="card card-aside">
+                                <a href="#" class="card-aside-column" style="background-image: url('https://image.tmdb.org/t/p/original{{ movie.posterPath }}')">
+                                </a>
+
+                                <div class="card-content">
+                                    <div class="card-header d-flex flex-column align-items-start">
+                                        <a href="#" class="card-title">
+                                            {{ movie.title }}
+                                        </a>
+                                        <small class="d-block text-muted">
+                                            {{ movie.releaseDate|date("m/d/Y") }}
+                                        </small>
+
+                                    </div>
+                                    <div class="card-body d-flex flex-column py-3">
+                                        <div class="text-muted">
+                                            {% if movie.overview != "" %}
+                                                {{ movie.overview }}
+                                            {% else %}
+                                                Ce film n'a pas de résumé disponible...
+                                            {% endif %}
+                                        </div>
+
+                                    </div>
+                                    <a class="card-footer" href="#">
+                                        Plus d'informations
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-md-12">
+                            <div class="alert alert-icon alert-warning" role="alert">
+                                <i class="fe fe-alert-triangle mr-2" aria-hidden="true"></i>
+                                Aucun résultat pour la recherche: {{ search }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

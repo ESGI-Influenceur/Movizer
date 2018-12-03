@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}MoviZer{% endblock %}</title>
+        {% block stylesheets %}
+            <link href="{{ asset('assets/css/tabler.css') }}" rel="stylesheet" />
+            <link href="{{ asset('assets/css/dashboard.css') }}" rel="stylesheet" />
+            <link href="{{ asset('assets/css/listFilm.css') }}" rel="stylesheet" />
+        {% endblock %}
+    </head>
+    <body>
+        <div class="page">
+            {% block body %}{% endblock %}
+        </div>
+        {% block javascripts %}
+            <script src="{{ asset('assets/js/require.min.js') }}"></script>
+            <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

@@ -13,6 +13,7 @@ class MovieFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        Request::verifyPeer(false);
         for($page = 1; $page <= 2; $page ++ ) {
             $movies = Request::get('https://api.themoviedb.org/3/movie/popular?api_key=3942737097dcd29145fe000304ac2294&language=fr-FR&page='.$page.'&region=france');
 
