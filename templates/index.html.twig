@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         {% block stylesheets %}
             <link href="{{ asset('assets/css/tabler.css') }}" rel="stylesheet" />
+            <link href="{{ asset('assets/css/home.css') }}" rel="stylesheet" />
         {% endblock %}
 
         {% block javascripts %}
@@ -40,11 +41,11 @@
                     <p class="welcome-description">Découvrez, notez et commentez avec vos amis</p>
 
                     <div class="mt-6">
-                        <a href="{{ path('tv') }}" class="btn btn-outline ml-2">
+                        <a href="{{ path('tv') }}" class="btn btn-lg btn-pill btn-outline-primary">
                             Series
                         </a>
 
-                        <a href="{{ path('movies') }}" class="btn btn-green">
+                        <a href="{{ path('movies') }}" class="btn btn-lg btn-pill btn-success">
                             Films
                         </a>
                     </div>

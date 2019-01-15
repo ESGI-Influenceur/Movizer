@@ -7,4 +7,10 @@
     {% if targetUrl %}
     <p><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
     {% endif %}
+
+    <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+        <li class="nav-item">
+            <a href="{{ path('home') }}" class="nav-link w-100"><i class="fe fe-home"></i> Home</a>
+        </li>
+    </ul>
 {% endblock fos_user_content %}

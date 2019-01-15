@@ -52,4 +52,20 @@ class TvController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+
+    /**
+     * @Route("/tv/{id}", name="show_tv")
+     * @param string $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function show(string $id)
+    {
+        $serials = $this->getDoctrine()->getRepository('App:Tv')->find($id);
+        return $this->render('tv/show.html.twig', [
+            'controller_name' => 'TvController',
+            'tv' => $serials,
+            'id' => $serials->getId(),
+        ]);
+    }
 }

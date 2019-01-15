@@ -60,10 +60,12 @@ class MovieController extends AbstractController
      */
     public function show(string $id)
     {
+
         $movie = $this->getDoctrine()->getRepository('App:Movie')->find($id);
         return $this->render('movie/show.html.twig', [
             'controller_name' => 'MovieController',
             'movie' => $movie,
+            'id' => $movie->getId(),
         ]);
     }
 }
