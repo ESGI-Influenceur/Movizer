@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TvController extends AbstractController
+class TvController extends Controller
 {
     /**
      * @Route("/tv", name="tv")
@@ -36,19 +37,47 @@ class TvController extends AbstractController
             $data = $form->get("search")->getData();
             $serials = $this->getDoctrine()->getRepository('App:Tv')->findBy(['name' => $data]);
 
+            /* @var $paginator \Knp\Component\Pager\Paginator */
+            $paginator  = $this->get('knp_paginator');
+
+            // Paginate the results of the query
+            $appointments = $paginator->paginate(
+            // Doctrine Query, not results
+                $serials,
+                // Define the page parameter
+                $request->query->getInt('page', 1),
+                // Items per page
+                6
+            );
+
             return $this->render('tv/index.html.twig', [
                 'controller_name' => 'TvController',
-                'serials' => $serials,
+                'serials' => $appointments,
                 'search' => $data,
                 'form' => $form->createView(),
             ]);
         }
 
+
         $serials = $this->getDoctrine()->getRepository('App:Tv')->findAll();
+
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+
+        // Paginate the results of the query
+        $appointments = $paginator->paginate(
+        // Doctrine Query, not results
+            $serials,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            6
+        );
+
 
         return $this->render('tv/index.html.twig', [
             'controller_name' => 'TvController',
-            'serials' => $serials,
+            'serials' => $appointments,
             'form' => $form->createView(),
         ]);
     }

@@ -1,4 +1,7 @@
 {
+    "behat/transliterator": {
+        "version": "v1.2.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -98,8 +101,17 @@
     "friendsofsymfony/user-bundle": {
         "version": "v2.1.2"
     },
+    "gedmo/doctrine-extensions": {
+        "version": "v2.4.36"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
+    },
+    "knplabs/knp-components": {
+        "version": "v1.3.10"
+    },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v2.8.0"
     },
     "mashape/unirest-php": {
         "version": "v3.0.4"

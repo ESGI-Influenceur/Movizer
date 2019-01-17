@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class MovieController extends AbstractController
+class MovieController extends Controller
 {
     /**
      * @Route("/movie", name="movies")
@@ -36,9 +36,22 @@ class MovieController extends AbstractController
             $data = $form->get("search")->getData();
             $movies = $this->getDoctrine()->getRepository('App:Movie')->findBy(['title' => $data]);
 
+            /* @var $paginator \Knp\Component\Pager\Paginator */
+            $paginator  = $this->get('knp_paginator');
+
+            // Paginate the results of the query
+            $appointments = $paginator->paginate(
+            // Doctrine Query, not results
+                $movies,
+                // Define the page parameter
+                $request->query->getInt('page', 1),
+                // Items per page
+                6
+            );
+
             return $this->render('movie/index.html.twig', [
                 'controller_name' => 'MovieController',
-                'movies' => $movies,
+                'movies' => $appointments,
                 'search' => $data,
                 'form' => $form->createView(),
             ]);
@@ -46,9 +59,23 @@ class MovieController extends AbstractController
 
         $movies = $this->getDoctrine()->getRepository('App:Movie')->findAll();
 
+
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+
+        // Paginate the results of the query
+        $appointments = $paginator->paginate(
+        // Doctrine Query, not results
+            $movies,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            6
+        );
+
         return $this->render('movie/index.html.twig', [
             'controller_name' => 'MovieController',
-            'movies' => $movies,
+            'movies' => $appointments,
             'form' => $form->createView(),
         ]);
     }
