@@ -19,6 +19,15 @@ class TvRepository extends ServiceEntityRepository
         parent::__construct($registry, Tv::class);
     }
 
+    public function searchTv($name) {
+        $req = $this->createQueryBuilder('t')
+            ->where('t.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->getQuery();
+
+        return $req->execute();
+    }
+
 //    /**
 //     * @return Tv[] Returns an array of Tv objects
 //     */

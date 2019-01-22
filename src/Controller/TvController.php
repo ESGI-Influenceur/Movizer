@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Entity\Comment;
+use App\Form\CommentType;
+use App\Form\SearchType;
 use Symfony\Component\HttpFoundation\Request;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,43 +18,20 @@ class TvController extends Controller
      */
     public function index(Request $request)
     {
-        $form = $this->createFormBuilder(null)
-            ->add('search', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary'
-                ]
-            ])
-            ->getForm();
+        $form = $this->createForm(SearchType::class);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
             $data = $form->get("search")->getData();
-            $serials = $this->getDoctrine()->getRepository('App:Tv')->findBy(['name' => $data]);
-
-            /* @var $paginator \Knp\Component\Pager\Paginator */
-            $paginator  = $this->get('knp_paginator');
-
-            // Paginate the results of the query
-            $paginatedSeries = $paginator->paginate(
-            // Doctrine Query, not results
-                $serials,
-                // Define the page parameter
-                $request->query->getInt('page', 1),
-                // Items per page
-                6
-            );
+            $serials = $this->getDoctrine()->getRepository('App:Tv')->searchTv($data);
 
             return $this->render('tv/index.html.twig', [
                 'controller_name' => 'TvController',
-                'serials' => $paginatedSeries,
+                'serials' => $serials,
                 'search' => $data,
                 'form' => $form->createView(),
+                'pagination' => false
             ]);
         }
 
@@ -71,7 +48,7 @@ class TvController extends Controller
             // Define the page parameter
             $request->query->getInt('page', 1),
             // Items per page
-            6
+            8
         );
 
 
@@ -79,6 +56,7 @@ class TvController extends Controller
             'controller_name' => 'TvController',
             'serials' => $paginatedSeries,
             'form' => $form->createView(),
+            'pagination' => true
         ]);
     }
 

@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -17,43 +16,21 @@ class MovieController extends Controller
      */
     public function index(Request $request)
     {
-        $form = $this->createFormBuilder(null)
-            ->add('search', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
-            ->add('submit', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-primary'
-                ]
-            ])
-            ->getForm();
+
+        $form = $this->createForm(SearchType::class);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
             $data = $form->get("search")->getData();
-            $movies = $this->getDoctrine()->getRepository('App:Movie')->findBy(['title' => $data]);
-
-            /* @var $paginator \Knp\Component\Pager\Paginator */
-            $paginator  = $this->get('knp_paginator');
-
-            // Paginate the results of the query
-            $paginatedMovies = $paginator->paginate(
-            // Doctrine Query, not results
-                $movies,
-                // Define the page parameter
-                $request->query->getInt('page', 1),
-                // Items per page
-                6
-            );
+            $movies = $this->getDoctrine()->getRepository('App:Movie')->searchMovie($data);
 
             return $this->render('movie/index.html.twig', [
                 'controller_name' => 'MovieController',
-                'movies' => $paginatedMovies,
+                'movies' => $movies,
                 'search' => $data,
                 'form' => $form->createView(),
+                'pagination' => false
             ]);
         }
 
@@ -70,13 +47,14 @@ class MovieController extends Controller
             // Define the page parameter
             $request->query->getInt('page', 1),
             // Items per page
-            6
+            8
         );
 
         return $this->render('movie/index.html.twig', [
             'controller_name' => 'MovieController',
             'movies' => $paginatedMovies,
             'form' => $form->createView(),
+            'pagination' => true
         ]);
     }
 

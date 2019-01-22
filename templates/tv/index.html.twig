@@ -30,7 +30,7 @@
 
                                 <div class="card-content">
                                     <div class="card-header d-flex flex-column align-items-start">
-                                        <a href="#" class="card-title">
+                                        <a href="{{path('show_tv', { 'id': tvShow.id }) }}" class="card-title">
                                             {{ tvShow.name }}
                                         </a>
                                         <small class="d-block text-muted">
@@ -65,9 +65,11 @@
                     {% endfor %}
                 </div>
 
-                <div class="navigation">
-                    {{ knp_pagination_render(serials) }}
-                </div>
+                {% if pagination %}
+                    <div class="navigation">
+                        {{ knp_pagination_render(serials) }}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
