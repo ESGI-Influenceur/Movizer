@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
+use App\Form\CommentType;
 use App\Form\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,12 +67,40 @@ class MovieController extends Controller
      */
     public function show(string $id)
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment, [
+            'action' => $this->generateUrl('comment_movie', ['id' => $id]),
+        ]);
 
         $movie = $this->getDoctrine()->getRepository('App:Movie')->find($id);
         return $this->render('movie/show.html.twig', [
             'controller_name' => 'MovieController',
             'movie' => $movie,
             'id' => $movie->getId(),
+            'commentForm' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/movie/comment/{id}", name="comment_movie")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function handleComment(Request $request, string $id) {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()) {
+            $content = $form->get('content')->getData();
+            $em = $this->getDoctrine()->getManager();
+            $movie = $this->getDoctrine()->getRepository('App:Movie')->find($id);
+            $comment->setContent($content);
+            $comment->setCommentMovie($movie);
+            $em->persist($comment);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('show_movie', ['id' => $id]);
     }
 }

@@ -68,11 +68,40 @@ class TvController extends Controller
      */
     public function show(string $id)
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment, [
+            'action' => $this->generateUrl('comment_tv', ['id' => $id]),
+        ]);
+
         $serials = $this->getDoctrine()->getRepository('App:Tv')->find($id);
         return $this->render('tv/show.html.twig', [
             'controller_name' => 'TvController',
             'tv' => $serials,
             'id' => $serials->getId(),
+            'commentForm' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/tv/comment/{id}", name="comment_tv")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function handleComment(Request $request, string $id) {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()) {
+            $content = $form->get('content')->getData();
+            $em = $this->getDoctrine()->getManager();
+            $tv = $this->getDoctrine()->getRepository('App:Tv')->find($id);
+            $comment->setContent($content);
+            $comment->setCommentMovie($tv);
+            $em->persist($comment);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('show_tv', ['id' => $id]);
     }
 }

@@ -11,17 +11,14 @@
                 <div class="description px-5">
                     <h1 class="description-title">{{ movie.title }}</h1>
                     <div class="mb-4">
-                        {#<% @movie.genres.each do |genre| %>#}
                         {% for genre in movie.genres %}
-                            <span class="tag tag-rounded px-3 mr-1 mb-1">{{ genre.name }}</span>
-                        {#<% end %>#}
+                            <span class="tag px-3 mr-1 mb-1">{{ genre.name }}</span>
                         {% endfor %}
                     </div>
                     <div class="row my-4">
                         <div class="col-md-6 d-flex">
                             <div id="chart"></div>
                         </div>
-
                        {# #}{#<% if user_signed_in? %>#}{#
                         {% if app.user %}
                             <div class="col-md-6 d-flex">
@@ -38,196 +35,170 @@
             </div>
         </div>
     </div>
-    <div class="navDetail w-100">
-        <ul class="nav nav-tabs container" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#comment" role="tab" aria-controls="comment" aria-selected="true"><i class="fe fe-message-circle"></i> Commentaire</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#critical" role="tab" aria-controls="critical" aria-selected="false"><i class="fe fe-message-square"></i> Critique</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#video" role="tab" aria-controls="video" aria-selected="false"><i class="fe fe-video"></i> Video</a>
-            </li>
-        </ul>
 
-    </div>
-
-    <div class="tab-content movie-tab" id="myTabContent">
-
-        <div class="tab-pane fade show active" id="comment" role="tabpanel" aria-labelledby="comment-tab">
-            <div class="my-3 my-md-5">
-                <div class="container ">
-                    <div class="page-header">
-                        <h1 class="page-title">
-                            Commentaires
-                        </h1>
-                        <div class="page-options d-flex">
-                            {% if app.user %}
-                                <a href="#submitComment" class="btn btn-pill btn-primary"><i class="fe fe-plus mr-2"></i>Ajouter un commentaire</a>
-                            {% else %}
-                                <a href="{{ path('fos_user_security_login') }}" class="btn btn-outline-primary mx-1">Se connecter pour ajouter un commentaire</a>
-                            {% endif %}
+    <div class="my-3 my-md-5">
+        <div class="container ">
+            <div class="row">
+                <div class="col-lg-4 col-md-8  col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Informations</h3>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card">
-
-                                <ul class="list-group card-list-group" id="listCom">
-                                    {% if movie.comments|length > 0 %}
-                                        {% for comment in movie.comments %}
-                                            <li class="list-group-item py-5">
-                                            <div class="media">
-                                                <div class="mr-4" >
-                                                    <span class="avatar avatar-md avatar-green">{{ comment.commentUser.username|slice(0,2)|upper }}</span>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div class="media-heading">
-                                                        <small class="float-right text-muted">{{ comment.createdAt|date('d/m/Y')}}</small>
-                                                        {#<% if can? :destroy, comment%>
-                                                        <button type="button" class="float-right btn btn-icon btn-primary btn-danger"><i class="fe fe-trash"></i></button>
-                                                        <% end %>#}
-                                                        <h5>{{ comment.commentUser.username }}</h5>
-                                                    </div>
-                                                    <div>
-                                                        {{ comment.content }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        {% endfor %}
+                        <div class="card-body">
+                            <div class="media mb-5">
+                                <img class="d-flex mr-5 rounded w-50" src="https://image.tmdb.org/t/p/original/{{ movie.posterPath }}">
+                                <div class="media-body">
+                                    <h5>{{ movie.title }}</h5>
+                                    <h6 class="text-muted">{{ movie.releaseDate | date('j F Y') }}</h6>
+                                    <div class="text-muted small">
+                                        Titre Original : {{ movie.originalTitle }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="h6">Etat</div>
+                                    {% if movie.status == "Released" %}
+                                        <span class="tag tag-lime">Sortie</span>
                                     {% else %}
-                                        <li class="list-group-item py-5">
-                                            <div class="media">
-                                                <div class="media-body">
-                                                    <div>
-                                                        Soyez le premier à commenter !
-                                                    </div>
+                                        <span class="tag tag-gray-dark">{{ movie.status }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="col-6">
+                                    <div class="h6">Budget</div>
+                                    <p>{{ movie.budget | number_format(0, '.') }} $</p>
+                                </div>
+                                <div class="col-6">
+                                    <div class="h6">Durée</div>
+                                    <p>{{ movie.runtime }} min</p>
+                                </div>
+                                <div class="col-6">
+                                    <div class="h6">Note Moyenne</div>
+                                    <p>{{ movie.averageNote }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-10 col-sm-12 mx-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Commentaire</h3>
+                        </div>
+                        <ul class="list-group card-list-group" id="listCom">
+                            {% if movie.comments|length > 0 %}
+                                {% for comment in movie.comments %}
+                                    <li class="list-group-item py-5">
+                                        <div class="media">
+                                            <div class="mr-4" >
+                                                <span class="avatar avatar-md avatar-green">{{ comment.commentUser.username|slice(0,2)|upper }}</span>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="media-heading">
+                                                    <small class="float-right text-muted">{{ comment.createdAt|date('d/m/Y')}}</small>
+                                                    {#<% if can? :destroy, comment%>
+                                                    <button type="button" class="float-right btn btn-icon btn-primary btn-danger"><i class="fe fe-trash"></i></button>
+                                                    <% end %>#}
+                                                    <h5>{{ comment.commentUser.username }}</h5>
+                                                </div>
+                                                <div>
+                                                    {{ comment.content }}
                                                 </div>
                                             </div>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                               {# <% if user_signed_in? %>
-                                <%= simple_form_for @comment,:url => '/comments/movies/'+@movie.id.to_s, :method => :post do |form|  %>
-                                <%= form.hidden_field :movie_id, id: :comment_movie_id %>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group mb-0">
-                                                <label for="text" class="form-label">Mon commentaire</label>
-                                                <%= form.text_area :text,class: 'form-control',placeholder: "Here can be your description" %>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="list-group-item py-5">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <div>
+                                                Soyez le premier à commenter !
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-footer text-right">
-                                    <%= form.submit 'Poster un commentaire sur ce film', class: 'btn btn-primary',id:"submitComment" %>
-                                </div>
-                                <% end %>
-                                <% else %>
-                                <div class="card-footer">
-                                    <div class="text-right">
-                                        <%= link_to 'Se connecter pour poster un commentaire' , new_user_session_path, class:"btn btn-outline-primary mx-1" %>
-                                    </div>
-                                </div>
-                                <% end %>#}
+                                </li>
+                            {% endif %}
+                        </ul>
 
+                        {% if app.user %}
+                            {{ form_start(commentForm) }}
+                            <div class="card-footer">
+                                <div class="form-group mb-0">
+                                    <label class="form-label">Mon Commentaire</label>
+                                    {{ form_widget(commentForm.content, {'attr': {'placeholder': 'Ici votre commentaire'} }) }}
+                                </div>
                             </div>
+                            <div class="card-footer text-right">
+                                {{ form_widget(commentForm.submit, {'label' : 'Poster mon commentaire'}) }}
+                            </div>
+                            {{ form_end(commentForm) }}
+                        {% endif %}
+
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Bande d'annonce</h3>
+                        </div>
+                        <div class="card-body">
+                            <iframe style="height: 400px; width: 100%; position: relative;" src="https://www.youtube.com/embed/{{ movie.video }}" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-       {# <div class="tab-pane fade" id="critical" role="tabpanel" aria-labelledby="critical-tab">
-            <div class="my-3 my-md-5">
-                <div class="container ">
-                    <div class="page-header">
-                        <h1 class="page-title">
-                            Critiques
-                        </h1>
-                        <div class="page-options d-flex">
-                            <% if user_signed_in? %>
-                            <a href="/criticals/movies/new/<%= @movie.id%>" class="btn btn-pill btn-primary"><i class="fe fe-plus mr-2"></i>Ajouter une critique</a>
-                            <% else %>
-                            <%= link_to 'Se connecter pour ajouter une critique' , new_user_session_path, class:"btn btn-outline-primary mx-1" %>
-                            <% end %>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <% if @movie.criticals.any? %>
-                        <% @movie.criticals.each do |critical| %>
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-status bg-green"></div>
-                                <div class="card-body d-flex flex-column">
-                                    <h4><a href="/criticals/<%= critical.id %>"><%= critical.title%></a></h4>
-                                    <div class="text-muted"><%= critical.text%></div>
-                                    <div class="d-flex align-items-center pt-5 mt-auto">
-                                        <div class="mr-2">
-                                            <span class="avatar avatar-green"><%= critical.user.username[0,1]+critical.user.username[critical.user.username.size - 1,critical.user.username.size] %></span>
-                                        </div>
-                                        <div>
-                                            <span class="text-default"><%= critical.user.username %></span>
-                                            <small class="d-block text-muted"><%= critical.date %></small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <% end %>
-                        <% else %>
-                        <div class="alert alert-warning" role="alert">
-                            <i class="fe fe-alert-circle mr-2" aria-hidden="true"></i>Il n'y a aucune critique pour ce film
-                        </div>
-                        <% end %>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane fade" id="video" role="tabpanel" aria-labelledby="video-tab">
-            <div class="tab-pane fade show active" id="comment" role="tabpanel" aria-labelledby="comment-tab">
-                <div class="my-3 my-md-5">
-                    <div class="container ">
-                        <div class="page-header">
-                            <h1 class="page-title">
-                                Video
-                            </h1>
-                        </div>
-                        <div class="row row-cards">
-
-                            <% if @movie.video.present? %>
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="card p-3">
-                                    <div class="mb-3">
-                                        <div class="lecteur">
-                                            <iframe width="600" height="400"  src="<%= @movie.video%>" frameborder="0" allowfullscreen></iframe>
-
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center px-2">
-                                        <div class="avatar avatar-red avatar-md mr-3" >YT</div>
-                                        <div>
-                                            <div>Youtube</div>
-                                            <small class="d-block text-muted">12 days ago</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <% else %>
-                            <div class="alert alert-warning" role="alert">
-                                <i class="fe fe-alert-circle mr-2" aria-hidden="true"></i>Il n'y a aucune video pour ce film
-                            </div>
-                            <% end %>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>#}
-
-
     </div>
+
+
+
+    {#<div class="tab-content movie-tab" id="myTabContent">#}
+
+        {#<div class="tab-pane fade show active" id="comment" role="tabpanel" aria-labelledby="comment-tab">#}
+            {##}
+        {#</div>#}
+
+
+        {#<div class="tab-pane fade" id="video" role="tabpanel" aria-labelledby="video-tab">#}
+            {#<div class="tab-pane fade show active" id="comment" role="tabpanel" aria-labelledby="comment-tab">#}
+                {#<div class="my-3 my-md-5">#}
+                    {#<div class="container ">#}
+                        {#<div class="page-header">#}
+                            {#<h1 class="page-title">#}
+                                {#Video#}
+                            {#</h1>#}
+                        {#</div>#}
+                        {#<div class="row row-cards">#}
+
+                            {#<% if @movie.video.present? %>#}
+                            {#<div class="col-sm-6 col-lg-4">#}
+                                {#<div class="card p-3">#}
+                                    {#<div class="mb-3">#}
+                                        {#<div class="lecteur">#}
+                                            {#<iframe width="600" height="400"  src="<%= @movie.video%>" frameborder="0" allowfullscreen></iframe>#}
+
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="d-flex align-items-center px-2">#}
+                                        {#<div class="avatar avatar-red avatar-md mr-3" >YT</div>#}
+                                        {#<div>#}
+                                            {#<div>Youtube</div>#}
+                                            {#<small class="d-block text-muted">12 days ago</small>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<% else %>#}
+                            {#<div class="alert alert-warning" role="alert">#}
+                                {#<i class="fe fe-alert-circle mr-2" aria-hidden="true"></i>Il n'y a aucune video pour ce film#}
+                            {#</div>#}
+                            {#<% end %>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+
+
+    {#</div>#}
 
 {% endblock %}
