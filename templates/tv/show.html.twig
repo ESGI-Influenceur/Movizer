@@ -12,7 +12,7 @@
                     <h1 class="description-title">{{ tv.name }}</h1>
                     <div class="mb-4">
                         {% for genre in tv.genres %}
-                            <span class="tag tag-rounded px-3 mr-1 mb-1">{{ genre.name }}</span>
+                            <span class="tag px-3 mr-1 mb-1">{{ genre.name }}</span>
                         {#<% end %>#}
                         {% endfor %}
                     </div>
@@ -57,11 +57,11 @@
                                     </div>
                                     {% if app.user %}
                                         {% if app.user in tv.favoriteUsers %}
-                                            <a href="{{ path('remove_favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-danger">
+                                            <a href="{{ path('remove_favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-danger m-3">
                                                 <i class="fe fe-heart mr-2"></i>You Like It
                                             </a>
                                         {% else %}
-                                            <a href="{{ path('favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-outline-danger">
+                                            <a href="{{ path('favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-outline-danger m-3">
                                                 <i class="fe fe-heart mr-2"></i>Like It
                                             </a>
                                         {% endif %}
@@ -78,6 +78,40 @@
                                     <p>{{ tv.averageNote }}</p>
                                 </div>
                             </div>
+                            {% if suggestions | length > 0 %}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="h5">Suggestions de films </div>
+                                        <ul class="list-unstyled list-separated">
+                                            {% for tv in suggestions %}
+                                                <li class="list-separated-item">
+                                                    <div class="media" style="align-items: center">
+                                                        <img class="d-flex mr-5 rounded w-25" src="https://image.tmdb.org/t/p/original/{{ tv.posterPath }}">
+                                                        <div class="media-body">
+                                                            <h5>{{ tv.name }}</h5>
+                                                            <div class="text-muted small">
+                                                                {{ tv.originalName }}
+                                                            </div>
+                                                            <p>{{ tv.averageNote }}/10</p>
+                                                            {% if app.user %}
+                                                                {% if app.user in tv.favoriteUsers %}
+                                                                    <a href="{{ path('remove_favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-danger m-1">
+                                                                        <i class="fe fe-heart mr-2"></i>You Like It
+                                                                    </a>
+                                                                {% else %}
+                                                                    <a href="{{ path('favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-outline-danger m-1">
+                                                                        <i class="fe fe-heart mr-2"></i>Like It
+                                                                    </a>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

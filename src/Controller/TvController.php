@@ -74,11 +74,28 @@ class TvController extends Controller
         ]);
 
         $serials = $this->getDoctrine()->getRepository('App:Tv')->find($id);
+
+        $tvGenre = $serials->getGenres();
+        $suggestions = [];
+
+        if (count($tvGenre) > 0) {
+            $random = rand(0, count($tvGenre) - 1);
+            $suggestedGenre = $tvGenre[$random];
+
+            $suggestedTvs = $suggestedGenre->getTvs();
+            for($i = 0; $i < 3; $i++){
+                if(strcmp($serials->getName(), $suggestedTvs[$i]->getName()) !== 0){
+                    array_push($suggestions, $suggestedTvs[$i]);
+                }
+            }
+        }
+
         return $this->render('tv/show.html.twig', [
             'controller_name' => 'TvController',
             'tv' => $serials,
             'id' => $serials->getId(),
-            'commentForm' => $form->createView()
+            'commentForm' => $form->createView(),
+            'suggestions' => $suggestions,
         ]);
     }
 
