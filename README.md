@@ -1,6 +1,6 @@
 # Movizer
 
-![Preview](https://raw.githubusercontent.com/CNadjim/spring-boot-oauth2/master/assets/screen.png)
+![Preview](https://raw.githubusercontent.com/ESGI-Influenceur/Movizer/admin/readme/screen.png)
 
 
 ## Install
