@@ -73,11 +73,25 @@ class MovieController extends Controller
         ]);
 
         $movie = $this->getDoctrine()->getRepository('App:Movie')->find($id);
+        $movieGenre = $movie->getGenres();
+        $suggestions = [];
+
+        if (count($movieGenre) > 0) {
+            $random = rand(0, count($movieGenre) - 1);
+            $suggestedGenre = $movieGenre[$random];
+
+            $suggestedMovies = $suggestedGenre->getMovies();
+            for($i = 0; $i < 3; $i++){
+                array_push($suggestions, $suggestedMovies[$i]);
+            }
+        }
+
         return $this->render('movie/show.html.twig', [
             'controller_name' => 'MovieController',
             'movie' => $movie,
             'id' => $movie->getId(),
-            'commentForm' => $form->createView()
+            'commentForm' => $form->createView(),
+            'suggestions' => $suggestions,
         ]);
     }
 
