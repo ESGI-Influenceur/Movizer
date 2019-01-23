@@ -77,7 +77,7 @@ class Movie
     private $notes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorite_movie")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorite_movies")
      */
     private $favorite_users;
 

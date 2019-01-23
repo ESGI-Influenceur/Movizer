@@ -84,9 +84,11 @@ class MovieController extends Controller
     /**
      * @Route("/movie/comment/{id}", name="comment_movie")
      * @param Request $request
+     * @param string $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function handleComment(Request $request, string $id) {
+    public function handleComment(Request $request, string $id)
+    {
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
@@ -100,6 +102,42 @@ class MovieController extends Controller
             $em->persist($comment);
             $em->flush();
         }
+
+        return $this->redirectToRoute('show_movie', ['id' => $id]);
+    }
+
+    /**
+     * @Route("/movie/favoris/add/{id}", name="favoris_movie")
+     * @param string $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function handleFavoris(string $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $movie = $this->getDoctrine()->getRepository('App:Movie')->find($id);
+
+        $movie->addFavoriteUser($user);
+        $em->persist($movie);
+        $em->flush();
+
+        return $this->redirectToRoute('show_movie', ['id' => $id]);
+    }
+
+    /**
+     * @Route("/movie/favoris/delete/{id}", name="remove_favoris_movie")
+     * @param string $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function handleRemoveFavoris(string $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $movie = $this->getDoctrine()->getRepository('App:Movie')->find($id);
+
+        $movie->removeFavoriteUser($user);
+        $em->persist($movie);
+        $em->flush();
 
         return $this->redirectToRoute('show_movie', ['id' => $id]);
     }

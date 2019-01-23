@@ -63,7 +63,7 @@ class Tv
     private $notes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorites_tvs")
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorite_tvs")
      */
     private $favorite_users;
 
