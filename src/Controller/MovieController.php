@@ -40,7 +40,7 @@ class MovieController extends Controller
             $paginator  = $this->get('knp_paginator');
 
             // Paginate the results of the query
-            $appointments = $paginator->paginate(
+            $paginatedMovies = $paginator->paginate(
             // Doctrine Query, not results
                 $movies,
                 // Define the page parameter
@@ -51,7 +51,7 @@ class MovieController extends Controller
 
             return $this->render('movie/index.html.twig', [
                 'controller_name' => 'MovieController',
-                'movies' => $appointments,
+                'movies' => $paginatedMovies,
                 'search' => $data,
                 'form' => $form->createView(),
             ]);
@@ -64,7 +64,7 @@ class MovieController extends Controller
         $paginator  = $this->get('knp_paginator');
 
         // Paginate the results of the query
-        $appointments = $paginator->paginate(
+        $paginatedMovies = $paginator->paginate(
         // Doctrine Query, not results
             $movies,
             // Define the page parameter
@@ -75,7 +75,7 @@ class MovieController extends Controller
 
         return $this->render('movie/index.html.twig', [
             'controller_name' => 'MovieController',
-            'movies' => $appointments,
+            'movies' => $paginatedMovies,
             'form' => $form->createView(),
         ]);
     }

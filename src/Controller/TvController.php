@@ -41,7 +41,7 @@ class TvController extends Controller
             $paginator  = $this->get('knp_paginator');
 
             // Paginate the results of the query
-            $appointments = $paginator->paginate(
+            $paginatedSeries = $paginator->paginate(
             // Doctrine Query, not results
                 $serials,
                 // Define the page parameter
@@ -52,7 +52,7 @@ class TvController extends Controller
 
             return $this->render('tv/index.html.twig', [
                 'controller_name' => 'TvController',
-                'serials' => $appointments,
+                'serials' => $paginatedSeries,
                 'search' => $data,
                 'form' => $form->createView(),
             ]);
@@ -65,7 +65,7 @@ class TvController extends Controller
         $paginator  = $this->get('knp_paginator');
 
         // Paginate the results of the query
-        $appointments = $paginator->paginate(
+        $paginatedSeries = $paginator->paginate(
         // Doctrine Query, not results
             $serials,
             // Define the page parameter
@@ -77,7 +77,7 @@ class TvController extends Controller
 
         return $this->render('tv/index.html.twig', [
             'controller_name' => 'TvController',
-            'serials' => $appointments,
+            'serials' => $paginatedSeries,
             'form' => $form->createView(),
         ]);
     }

@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^1.6",
+        "easycorp/easyadmin-bundle": "^2.0",
         "friendsofsymfony/user-bundle": "~2.0",
         "knplabs/knp-paginator-bundle": "^2.8",
         "mashape/unirest-php": "^3.0",
