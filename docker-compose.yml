@@ -1,13 +1,19 @@
 version: "3"
+volumes:
+   appdata: ~
 services:
   application:
     build:
       context: .
-      dockerfile: ./dockerN/Dockerfile
+      dockerfile: ./docker/Dockerfile
     ports :
      - "80:80"
     volumes:
      - ./:/var/www/html/
+     - appdata:/var/www/html/var/cache
+     - appdata:/var/www/html/var/logs
+     - .:/var/www/html:cached
+    working_dir: /var/www/html
     links:
      - database
     container_name: symfonyApp
