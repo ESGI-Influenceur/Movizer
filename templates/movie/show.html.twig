@@ -96,21 +96,25 @@
                                     <ul class="list-unstyled list-separated">
                                         {% for movie in suggestions %}
                                             <li class="list-separated-item">
-                                                <div class="media mb-5">
+                                                <div class="media" style="align-items: center">
                                                     <img class="d-flex mr-5 rounded w-25" src="https://image.tmdb.org/t/p/original/{{ movie.posterPath }}">
                                                     <div class="media-body">
-                                                        <h5>{{ movie.title }}</h5>
+                                                        <h5>
+                                                            <a href={{ path('show_movie', { 'id': movie.id }) }}>
+                                                                {{ movie.title }}
+                                                            </a>
+                                                        </h5>
                                                         <div class="text-muted small">
                                                             {{ movie.originalTitle }}
                                                         </div>
                                                         <p>{{ movie.averageNote }}/10</p>
                                                         {% if app.user %}
                                                             {% if app.user in movie.favoriteUsers %}
-                                                                <a href="{{ path('remove_favoris_movie', { 'id': movie.id }) }}" class="btn btn-sm btn-danger m-3">
+                                                                <a href="{{ path('remove_favoris_movie', { 'id': movie.id }) }}" class="btn btn-sm btn-danger m-1">
                                                                     <i class="fe fe-heart mr-2"></i>You Like It
                                                                 </a>
                                                             {% else %}
-                                                                <a href="{{ path('favoris_movie', { 'id': movie.id }) }}" class="btn btn-sm btn-outline-danger m-3">
+                                                                <a href="{{ path('favoris_movie', { 'id': movie.id }) }}" class="btn btn-sm btn-outline-danger m-1">
                                                                     <i class="fe fe-heart mr-2"></i>Like It
                                                                 </a>
                                                             {% endif %}
