@@ -24,7 +24,7 @@ class Genre
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Movie", mappedBy="genre")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Movie", mappedBy="genres")
      */
     private $movies;
 
