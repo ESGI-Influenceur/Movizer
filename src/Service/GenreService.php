@@ -34,7 +34,7 @@ class GenreService
             $genre = new Genre();
             $genre->setName($genreName);
             $manager->persist($genre);
-            dump($genreName.' added !');
+            //dump($genreName.' added !');
         }
     }
 }

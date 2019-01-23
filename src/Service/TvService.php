@@ -49,7 +49,7 @@ class TvService
                     }
 
                     $manager->persist($tv);
-                    dump($tv_detail->body->name.' added !');
+                    //dump($tv_detail->body->name.' added !');
                 }
             }
         }

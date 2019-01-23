@@ -60,7 +60,7 @@ class MovieService
                     }
 
                     $manager->persist($movie);
-                    dump($movies->body->results[$i]->title.' added !');
+                    //dump($movies->body->results[$i]->title.' added !');
                 }
             }
         }
