@@ -55,6 +55,17 @@
                                     <div class="text-muted small">
                                         Titre Original : {{ tv.originalName }}
                                     </div>
+                                    {% if app.user %}
+                                        {% if app.user in tv.favoriteUsers %}
+                                            <a href="{{ path('remove_favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-danger">
+                                                <i class="fe fe-heart mr-2"></i>You Like It
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-outline-danger">
+                                                <i class="fe fe-heart mr-2"></i>Like It
+                                            </a>
+                                        {% endif %}
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="row">

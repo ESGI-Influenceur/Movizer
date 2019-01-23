@@ -104,4 +104,40 @@ class TvController extends Controller
 
         return $this->redirectToRoute('show_tv', ['id' => $id]);
     }
+
+    /**
+ * @Route("/tv/favoris/add/{id}", name="favoris_tv")
+ * @param string $id
+ * @return \Symfony\Component\HttpFoundation\RedirectResponse
+ */
+    public function handleFavoris(string $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tv = $this->getDoctrine()->getRepository('App:Tv')->find($id);
+
+        $tv->addFavoriteUser($user);
+        $em->persist($tv);
+        $em->flush();
+
+        return $this->redirectToRoute('show_tv', ['id' => $id]);
+    }
+
+    /**
+     * @Route("/tv/favoris/delete/{id}", name="remove_favoris_tv")
+     * @param string $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function handleRemoveFavoris(string $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $tv = $this->getDoctrine()->getRepository('App:Tv')->find($id);
+
+        $tv->removeFavoriteUser($user);
+        $em->persist($tv);
+        $em->flush();
+
+        return $this->redirectToRoute('show_tv', ['id' => $id]);
+    }
 }
