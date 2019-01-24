@@ -21,7 +21,7 @@ trait DataTrait
     private $overview;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="decimal", precision=3, scale=2)
      */
     private $average_note;
 
@@ -86,7 +86,11 @@ trait DataTrait
      */
     public function setAverageNote($average_note): void
     {
-        $this->average_note = $average_note;
+        if ($this->average_note === "0.00"){
+            $this->average_note = $average_note;
+        } else {
+            $this->average_note = ($this->average_note + $average_note) / 2;
+        }
     }
 
 }

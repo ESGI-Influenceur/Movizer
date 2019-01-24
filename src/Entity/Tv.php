@@ -58,11 +58,6 @@ class Tv
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="note_tv")
-     */
-    private $notes;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorite_tvs")
      */
     private $favorite_users;
@@ -71,7 +66,6 @@ class Tv
     {
         $this->genres = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->notes = new ArrayCollection();
         $this->favorite_users = new ArrayCollection();
     }
 
@@ -191,37 +185,6 @@ class Tv
             // set the owning side to null (unless already changed)
             if ($comment->getCommentTv() === $this) {
                 $comment->setCommentTv(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Note[]
-     */
-    public function getNotes(): Collection
-    {
-        return $this->notes;
-    }
-
-    public function addNote(Note $note): self
-    {
-        if (!$this->notes->contains($note)) {
-            $this->notes[] = $note;
-            $note->setNoteTv($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNote(Note $note): self
-    {
-        if ($this->notes->contains($note)) {
-            $this->notes->removeElement($note);
-            // set the owning side to null (unless already changed)
-            if ($note->getNoteTv() === $this) {
-                $note->setNoteTv(null);
             }
         }
 

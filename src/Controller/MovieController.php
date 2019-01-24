@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\Note;
 use App\Form\CommentType;
 use App\Form\SearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -155,6 +156,24 @@ class MovieController extends Controller
         $movie = $this->getDoctrine()->getRepository('App:Movie')->find($id);
 
         $movie->removeFavoriteUser($user);
+        $em->persist($movie);
+        $em->flush();
+
+        return $this->redirectToRoute('show_movie', ['id' => $id]);
+    }
+
+    /**
+     * @Route("/movie/rate/{rate}/{id}", name="rate_movie")
+     * @param string $id
+     * @param int $rate
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function handleRating(string $id, int $rate)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $movie = $this->getDoctrine()->getRepository('App:Movie')->find($id);
+        $movie->setAverageNote($rate);
+
         $em->persist($movie);
         $em->flush();
 
