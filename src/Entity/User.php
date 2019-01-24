@@ -31,22 +31,22 @@ class User extends BaseUser
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="comment_user", orphanRemoval=true)
      */
-    private $comments;
+    public $comments;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="note_user")
      */
-    private $notes;
+    public $notes;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Movie", inversedBy="favorite_users")
      */
-    private $favorite_movies;
+    public $favorite_movies;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tv", inversedBy="favorite_users")
      */
-    private $favorite_tvs;
+    public $favorite_tvs;
 
     public function __construct()
     {

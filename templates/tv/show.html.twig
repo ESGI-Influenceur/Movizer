@@ -78,42 +78,52 @@
                                     <p>{{ tv.averageNote }}</p>
                                 </div>
                             </div>
-                            {% if suggestions | length > 0 %}
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="h5">Suggestions de films </div>
-                                        <ul class="list-unstyled list-separated">
-                                            {% for tv in suggestions %}
-                                                <li class="list-separated-item">
-                                                    <div class="media" style="align-items: center">
-                                                        <img class="d-flex mr-5 rounded w-25" src="https://image.tmdb.org/t/p/original/{{ tv.posterPath }}">
-                                                        <div class="media-body">
-                                                            <h5>{{ tv.name }}</h5>
-                                                            <div class="text-muted small">
-                                                                {{ tv.originalName }}
-                                                            </div>
-                                                            <p>{{ tv.averageNote }}/10</p>
-                                                            {% if app.user %}
-                                                                {% if app.user in tv.favoriteUsers %}
-                                                                    <a href="{{ path('remove_favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-danger m-1">
-                                                                        <i class="fe fe-heart mr-2"></i>You Like It
-                                                                    </a>
-                                                                {% else %}
-                                                                    <a href="{{ path('favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-outline-danger m-1">
-                                                                        <i class="fe fe-heart mr-2"></i>Like It
-                                                                    </a>
-                                                                {% endif %}
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-                            {% endif %}
                         </div>
                     </div>
+                    {% if suggestions | length > 0 %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Suggestions</h3>
+                        </div>
+                        <div class="card-body o-auto" style="height: 20rem">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="list-unstyled list-separated">
+                                        {% for tv in suggestions %}
+                                            <li class="list-separated-item">
+                                                <div class="media" style="align-items: center">
+                                                    <img class="d-flex mr-5 rounded w-25" src="https://image.tmdb.org/t/p/original/{{ tv.posterPath }}">
+                                                    <div class="media-body">
+                                                        <h5>
+                                                            <a href="{{ path('show_tv', { 'id': tv.id }) }}">
+                                                                {{ tv.name }}
+                                                            </a>
+                                                        </h5>
+                                                        <div class="text-muted small">
+                                                            {{ tv.originalName }}
+                                                        </div>
+                                                        <p>{{ tv.averageNote }}/10</p>
+                                                        {% if app.user %}
+                                                            {% if app.user in tv.favoriteUsers %}
+                                                                <a href="{{ path('remove_favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-danger m-1">
+                                                                    <i class="fe fe-heart mr-2"></i>You Like It
+                                                                </a>
+                                                            {% else %}
+                                                                <a href="{{ path('favoris_tv', { 'id': tv.id }) }}" class="btn btn-sm btn-outline-danger m-1">
+                                                                    <i class="fe fe-heart mr-2"></i>Like It
+                                                                </a>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="col-lg-8 col-md-10 col-sm-12 mx-auto">
                     <div class="card">

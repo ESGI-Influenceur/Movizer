@@ -81,7 +81,10 @@ class MovieController extends Controller
             $suggestedGenre = $movieGenre[$random];
 
             $suggestedMovies = $suggestedGenre->getMovies();
-            for($i = 0; $i < 3; $i++){
+            for($i = 0; $i < 5; $i++){
+                if($suggestedMovies[$i] == null) {
+                    break;
+                }
                 if(strcmp($suggestedMovies[$i]->getTitle(), $movie->getTitle()) !== 0 ){
                     array_push($suggestions, $suggestedMovies[$i]);
                 }

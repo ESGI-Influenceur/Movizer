@@ -88,11 +88,16 @@
                                     <p>{{ movie.averageNote }}</p>
                                 </div>
                             </div>
-
-                            {% if suggestions | length > 0 %}
+                        </div>
+                    </div>
+                    {% if suggestions | length > 0 %}
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Suggestions</h3>
+                        </div>
+                        <div class="card-body o-auto" style="height: 25rem">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="h5">Suggestions de films </div>
                                     <ul class="list-unstyled list-separated">
                                         {% for movie in suggestions %}
                                             <li class="list-separated-item">
@@ -126,9 +131,9 @@
                                     </ul>
                                 </div>
                             </div>
-                            {% endif %}
                         </div>
                     </div>
+                    {% endif %}
                 </div>
                 <div class="col-lg-8 col-md-10 col-sm-12 mx-auto">
                     <div class="card">

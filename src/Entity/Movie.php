@@ -72,7 +72,7 @@ class Movie
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="note_film")
+     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="note_movie")
      */
     private $notes;
 
@@ -304,5 +304,9 @@ class Movie
         }
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->title;
     }
 }

@@ -83,7 +83,10 @@ class TvController extends Controller
             $suggestedGenre = $tvGenre[$random];
 
             $suggestedTvs = $suggestedGenre->getTvs();
-            for($i = 0; $i < 3; $i++){
+            for($i = 0; $i < 5; $i++){
+                if($suggestedTvs[$i] == null) {
+                    break;
+                }
                 if(strcmp($serials->getName(), $suggestedTvs[$i]->getName()) !== 0){
                     array_push($suggestions, $suggestedTvs[$i]);
                 }

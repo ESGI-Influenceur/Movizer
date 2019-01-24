@@ -5,6 +5,9 @@
 #        - App\Entity\Category
 #        - App\Entity\User
 easy_admin:
+    site_name: 'MoviZer Admin 🍿'
     entities:
         - App\Entity\User
         - App\Entity\Comment
+        - App\Entity\Movie
+        - App\Entity\Tv
