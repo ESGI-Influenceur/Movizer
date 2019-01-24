@@ -63,6 +63,11 @@
                                                 <i class="fe fe-heart mr-2"></i>Like It
                                             </a>
                                         {% endif %}
+                                        <a href="{{ path('rate_movie', { 'id': movie.id, 'rate': 1}) }}">⭐</a>
+                                        <a href="{{ path('rate_movie', { 'id': movie.id, 'rate': 2}) }}">⭐⭐</a>
+                                        <a href="{{ path('rate_movie', { 'id': movie.id, 'rate': 3}) }}">⭐⭐⭐</a>
+                                        <a href="{{ path('rate_movie', { 'id': movie.id, 'rate': 4}) }}">⭐⭐⭐⭐</a>
+                                        <a href="{{ path('rate_movie', { 'id': movie.id, 'rate': 5}) }}">⭐⭐⭐⭐⭐</a>
                                     {% endif %}
                                 </div>
                             </div>
@@ -85,7 +90,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="h6">Note Moyenne</div>
-                                    <p>{{ movie.averageNote }}</p>
+                                    <p>{{ movie.averageNote }} ⭐</p>
                                 </div>
                             </div>
                         </div>

@@ -72,11 +72,6 @@ class Movie
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="note_movie")
-     */
-    private $notes;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favorite_movies")
      */
     private $favorite_users;
@@ -85,7 +80,6 @@ class Movie
     {
         $this->genres = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->notes = new ArrayCollection();
         $this->favorite_users = new ArrayCollection();
     }
 
@@ -241,37 +235,6 @@ class Movie
             // set the owning side to null (unless already changed)
             if ($comment->getCommentMovie() === $this) {
                 $comment->setCommentMovie(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Note[]
-     */
-    public function getNotes(): Collection
-    {
-        return $this->notes;
-    }
-
-    public function addNote(Note $note): self
-    {
-        if (!$this->notes->contains($note)) {
-            $this->notes[] = $note;
-            $note->setNoteMovie($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNote(Note $note): self
-    {
-        if ($this->notes->contains($note)) {
-            $this->notes->removeElement($note);
-            // set the owning side to null (unless already changed)
-            if ($note->getNoteMovie() === $this) {
-                $note->setNoteMovie(null);
             }
         }
 

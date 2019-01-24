@@ -34,11 +34,6 @@ class User extends BaseUser
     public $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="note_user")
-     */
-    public $notes;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Movie", inversedBy="favorite_users")
      */
     public $favorite_movies;
@@ -52,7 +47,6 @@ class User extends BaseUser
     {
         parent::__construct();
         $this->comments = new ArrayCollection();
-        $this->notes = new ArrayCollection();
         $this->favorite_movies = new ArrayCollection();
         $this->favorite_tvs = new ArrayCollection();
         // your own logic
@@ -83,37 +77,6 @@ class User extends BaseUser
             // set the owning side to null (unless already changed)
             if ($comment->getCommentUser() === $this) {
                 $comment->setCommentUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Note[]
-     */
-    public function getNotes(): Collection
-    {
-        return $this->notes;
-    }
-
-    public function addNote(Note $note): self
-    {
-        if (!$this->notes->contains($note)) {
-            $this->notes[] = $note;
-            $note->setNoteUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNote(Note $note): self
-    {
-        if ($this->notes->contains($note)) {
-            $this->notes->removeElement($note);
-            // set the owning side to null (unless already changed)
-            if ($note->getNoteUser() === $this) {
-                $note->setNoteUser(null);
             }
         }
 
